@@ -158,8 +158,8 @@
 //     adsafe     true, if ADsafe rules should be enforced
 //     bitwise    true, if bitwise operators should be allowed
 //     browser    true, if the standard browser globals should be predefined
-//     commonjs   true, if the standard commonjs globals should be predefined
 //     cap        true, if upper case HTML should be allowed
+//     commonjs   true, if the standard commonjs globals should be predefined
 //     confusion  true, if types can be used inconsistently
 //     'continue' true, if the continuation statement should be tolerated
 //     css        true, if CSS workarounds should be tolerated
@@ -465,13 +465,6 @@ var JSLINT = (function () {
             'setTimeout', 'Storage', 'window', 'XMLHttpRequest'
         ], false),
 
-// commonjs contains a set of global names that are commonly provided by a
-// CommonJS environment.
-
-        commonjs = array_to_object([
-            'require', 'module', 'exports'
-        ], false),
-
 // bundle contains the text messages.
 
         bundle = {
@@ -676,6 +669,16 @@ var JSLINT = (function () {
                 "disambiguate the slash operator.",
             write_is_wrong: "document.write can be a form of eval."
         },
+
+// commonjs contains a set of global names that are commonly provided by a
+// CommonJS environment.
+
+        commonjs = {
+    	    'require': false,
+    	    'module': false,
+            'exports': true
+        },
+
         comments_off,
         css_attribute_data,
         css_any,
@@ -1288,10 +1291,6 @@ var JSLINT = (function () {
                 add_to_predefined(browser);
                 option.browser = false;
             }
-            if (option.commonjs) {
-                add_to_predefined(commonjs);
-                option.commonjs = false;
-            }
             if (option.windows) {
                 add_to_predefined(windows);
                 option.windows = false;
@@ -1305,6 +1304,9 @@ var JSLINT = (function () {
                 add_to_predefined(widget);
                 option.widget = false;
             }
+        }
+        if (option.commonjs) {
+            add_to_predefined(commonjs);
         }
         if (option.type) {
             option.confusion = true;
@@ -3053,7 +3055,9 @@ klass:              do {
                 l = left;
                 do {
                     if (typeof predefined[l.string] === 'boolean') {
-                        warn('adsafe_a', l);
+                        if (!option.commonjs || typeof commonjs[l.string] !== "boolean") {
+                            warn('adsafe_a', l);
+                        }
                     }
                     l = l.first;
                 } while (l);
@@ -3945,6 +3949,9 @@ klass:              do {
                 }
                 if (typeof predefined[left.string] !== 'boolean' ||    //// check for writeable
                         next_token.id === '(') {
+                    break;
+                }
+                if (option.commonjs && commonjs[left.string] === true) {
                     break;
                 }
                 if (next_token.id !== '.') {
