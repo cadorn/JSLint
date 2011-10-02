@@ -284,7 +284,8 @@
     expected_small_a: string, expected_space_a_b: string,
     expected_string_a: string, expected_style_attribute: string,
     expected_style_pattern: string, expected_tagname_a: string,
-    expected_type_a: string, f: string, fieldset: object, figure: object,
+    expected_type_a: string, exports: string, f: string, fieldset: object,
+    figure: object,
     filter: *, first: *, float: array, floor: *, font: *, 'font-family',
     'font-size': array, 'font-size-adjust': array, 'font-stretch': array,
     'font-style': array, 'font-variant': array, 'font-weight': array,
@@ -327,6 +328,7 @@
     missing_a: string, missing_a_after_b: string, missing_option: string,
     missing_property: string, missing_space_a_b: string, missing_url: string,
     missing_use_strict: string, mixed: string, mm: boolean, mode: string,
+    module: string,
     move_invocation: string, move_var: string, n: string, name: string,
     name_function: string, nav: object, nested_comment: string,
     newcap: boolean, node: boolean, noframes: object, nomen, noscript: object,
@@ -349,6 +351,7 @@
     quotes: array, r: string, radix: string, range: function, raw,
     read_only: string, reason, redefinition_a: string, reduce: string,
     reduceRight: string, regexp, replace: function, report: function,
+    require: string,
     reserved: boolean, reserved_a: string, reverse: string, rhino: boolean,
     right: array, rp: object, rt: object, ruby: object, safe: boolean,
     samp: object, scanned_a_b: string, screen: boolean, script: object,
@@ -674,9 +677,9 @@ var JSLINT = (function () {
 // CommonJS environment.
 
         commonjs = {
-    	    'require': false,
-    	    'module': false,
-            'exports': true
+            "require": false,
+            "module": false,
+            "exports": true
         },
 
         comments_off,
